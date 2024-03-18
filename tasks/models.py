@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class TodoList(models.Model):
     title = models.CharField(max_length=256, verbose_name="Название списка задач")
     tasks_max_count = models.IntegerField(default=20, verbose_name="Максимальное количество задач")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     
     class Meta:
         ordering = ["-title"]
