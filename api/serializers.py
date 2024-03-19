@@ -7,8 +7,8 @@ from tasks.models import TodoList, Task
 class TodoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoList
-        fields = ["id", "title", "author", "task_set"]
-        extra_kwargs = {"task_set": {"read_only": True}}
+        fields = ["id", "title", "author", "tasks"]
+        extra_kwargs = {"tasks": {"read_only": True}}
 
 
 class TaskSerializer(serializers.ModelSerializer):

@@ -11,7 +11,7 @@
             <div class="todo_list">
                 <h3>{{ list.title }}</h3>
                 <p>{{ list.description }}</p>
-                <p>Всего задач: {{ list.task_set.all|length }}</p>
+                <p>Всего задач: {{ list.tasks.all|length }}</p>
                 <p>Выполненных здач: {{ list.get_completed_tasks|length }}</p>
             </div>
         {% endfor %}
