@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+Мои списки задач
+{% endblock title %}
+
+{% block main %}
+    {% for list in todolists %}
+        <p>{{ list }}</p>
+    {% endfor %}
+{% endblock main %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+Создать список задач
+{% endblock title %}
+
+{% block main %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Создать">
+</form>
+{% endblock main %}
+
