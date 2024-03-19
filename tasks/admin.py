@@ -11,4 +11,4 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(TodoList)
 class TodoListAdmin(admin.ModelAdmin):
-    list_display = ["title", "tasks_max_count"]
+    list_display = ["title"]

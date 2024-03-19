@@ -5,7 +5,18 @@
 {% endblock title %}
 
 {% block main %}
-    {% for list in todolists %}
-        <p>{{ list }}</p>
-    {% endfor %}
+<h1>Ваши списки задач</h1>
+   {% if todolists %}
+        {% for list in todolists %}
+            <div class="todo_list">
+                <h3>{{ list.title }}</h3>
+                <p>{{ list.description }}</p>
+                <p>Всего задач: {{ list.task_set.all|length }}</p>
+                <p>Выполненных здач: {{ list.get_completed_tasks|length }}</p>
+            </div>
+        {% endfor %}
+   {% else %}
+        <h2>Хм, похоже, вы еще не создали ни одного списка... Вы можете сделать это 
+            <a href="{% url "create_todolist" %}">здесь</a></h2>
+   {% endif %}
 {% endblock main %}
