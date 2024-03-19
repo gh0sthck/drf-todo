@@ -9,8 +9,9 @@
    {% if todolists %}
         {% for list in todolists %}
             <div class="todo_list">
-                <h3>{{ list.title }}</h3>
+                <h3><a href="{{ list.get_absolute_url }}">{{ list.title }}</a></h3>
                 <p>{{ list.description }}</p>
+                <p>Дата создания: {{ list.create_date }}</p>
                 <p>Всего задач: {{ list.tasks.all|length }}</p>
                 <p>Выполненных здач: {{ list.get_completed_tasks|length }}</p>
             </div>

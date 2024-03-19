@@ -1,6 +1,9 @@
 import datetime
 
+from pytils.translit import slugify
+
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 class Tag(models.Model):
@@ -21,6 +24,7 @@ class TodoList(models.Model):
     tags = models.ManyToManyField(Tag, related_name="todolists", verbose_name="Теги", null=True,
                                   blank=True)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    slug = models.SlugField(verbose_name="Слаг")
     
     class Meta:
         ordering = ["-title"]
@@ -30,6 +34,15 @@ class TodoList(models.Model):
     def get_completed_tasks(self) -> ...:
         tasks = self.tasks.filter(is_completed=True)
         return tasks
+    
+    def get_absolute_url(self):
+        return reverse("current_list", kwargs={"slug": self.slug})
+    
+    
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super(TodoList, self).save(*args, **kwargs)
     
     def __str__(self) -> str:
         return f"<TodoList: {self.title}>"
@@ -56,6 +69,9 @@ class Task(models.Model):
         if self.is_completed:
             self.complete_date = datetime.datetime.now()
         return super(Task, self).save(*args, **kwargs)
+        
+    def get_read_status(self) -> str:
+        return "Выполнено" if self.is_completed else "Не выполнено"
         
     def __str__(self) -> str:
         return f"<Task: {self.title}>"

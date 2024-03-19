@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Задачник {{ list.title }}
+{% endblock title %}
+
+{% block main %}
+    <h1>{{ list.title }}</h1>
+
+    {% for task in list.tasks.all %}
+        <form method="get" action="{% url 'current_list' list.slug %}">
+            Статус: {{ task.get_read_status }}
+            <label for="{{ task.title }}">{{ task.title }}</label>
+            {% if task.is_completed %}
+                <input type="submit" name="{{ task.title }}" value="Не выполнено">
+            {% else %}
+                <input type="submit" name="{{ task.title }}" value="Выполнено">
+            {% endif %}
+            
+        </form>
+    {% endfor %}
+
+    <h2>Добавьте задачу</h2>
+    <form method="post">
+        {{ add_task_form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Добавить">
+    </form>
+{% endblock main %}
