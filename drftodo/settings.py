@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import STATIC_ROOT, STATICFILES_DIRS
+from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, STATIC_ROOT, STATICFILES_DIRS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    "drf_yasg",
     
     "api.apps.ApiConfig",
     "tasks.apps.TasksConfig",
@@ -140,3 +141,6 @@ REST_FRAMEWORK = {
         
     ]
 }
+
+LOGIN_REDIRECT_URL = "my_lists"
+LOGOUT_REDIRECT_URL = "/"
