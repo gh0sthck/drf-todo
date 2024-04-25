@@ -8,6 +8,7 @@ class SiteClient(AbstractUser):
     avatar = models.ImageField(
         upload_to="",
         null=True,
+        blank=True
     )
     
     

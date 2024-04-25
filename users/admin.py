@@ -5,4 +5,4 @@ from .models import SiteClient
 
 @admin.register(SiteClient)
 class SiteClientAdmin(admin.ModelAdmin):
-    fields = ["username", "email"]
+    fields = ["username", "password", "email"]

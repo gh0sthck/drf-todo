@@ -1,8 +1,14 @@
+from http import client
 from django import forms
-from django.contrib.auth.models import User
+
+from .models import SiteClient
 
 
-class Form(forms.ModelForm):
+class UserRegisterForm(forms.ModelForm):
+    password = forms.CharField(max_length=120, widget=forms.PasswordInput(), label="Пароль")
+    
     class Meta:
-        model = User
-        fields = "__all__"
+        model = SiteClient
+        fields = ["username", "password", "email", "avatar"]
+        
+    
