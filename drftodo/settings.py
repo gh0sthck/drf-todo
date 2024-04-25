@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, STATIC_ROOT, STATICFILES_DIRS
+from django.conf.global_settings import AUTH_USER_MODEL, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, MEDIA_ROOT, STATIC_ROOT, STATICFILES_DIRS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,6 +128,9 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, STATIC_URL),
 ]
 
+MEDIA_ROOT = "/media/"
+MEDIA_URL = MEDIA_ROOT
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -141,6 +144,8 @@ REST_FRAMEWORK = {
         
     ]
 }
+
+AUTH_USER_MODEL = "users.SiteClient"
 
 LOGIN_REDIRECT_URL = "my_lists"
 LOGOUT_REDIRECT_URL = "/"

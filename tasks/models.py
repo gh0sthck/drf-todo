@@ -6,6 +6,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from users.models import SiteClient
+
 class Tag(models.Model):
     name = models.CharField(max_length=128, verbose_name="Название тега", unique=True)
     
@@ -20,9 +22,8 @@ class Tag(models.Model):
 
 class TodoList(models.Model):
     title = models.CharField(max_length=256, verbose_name="Название списка задач")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
-    tags = models.ManyToManyField(Tag, related_name="todolists", verbose_name="Теги", null=True,
-                                  blank=True)
+    author = models.ForeignKey(SiteClient, on_delete=models.CASCADE, verbose_name="Автор")
+    tags = models.ManyToManyField(Tag, related_name="todolists", verbose_name="Теги", blank=True)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     slug = models.SlugField(verbose_name="Слаг")
     

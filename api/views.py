@@ -1,10 +1,9 @@
-from django.contrib.auth.models import User
-
-from rest_framework import permissions, viewsets, generics
+from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
 from api.serializers import TaskSerializer, TodoListSerializer, UserSerializer
 from tasks.models import TodoList, Task
+from users.models import SiteClient
 
 
 class TodoListViewSet(viewsets.ModelViewSet):
@@ -21,7 +20,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = SiteClient.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):

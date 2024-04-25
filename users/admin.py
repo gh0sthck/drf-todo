@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import SiteClient
+
+
+@admin.register(SiteClient)
+class SiteClientAdmin(admin.ModelAdmin):
+    fields = ["username", "email"]
