@@ -5,10 +5,14 @@
 {% endblock title %}
 
 {% block main %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Создать">
-</form>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Создать">
+    </form>
+{% else %}
+    <h3>Вы не вошли в аккаунт</h3>
+{% endif %}
 {% endblock main %}
 

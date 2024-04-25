@@ -5,7 +5,7 @@ from .views import TaskViewSet, TodoListViewSet, UserViewSet
 router = DefaultRouter()
 
 router.register("tasks", TaskViewSet)
-router.register("todo_lists", TodoListViewSet)
+router.register("todo_lists", TodoListViewSet, basename="todo-lists")
 router.register("users", UserViewSet)
 
 urlpatterns = []

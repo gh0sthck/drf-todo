@@ -53,7 +53,7 @@ class Task(models.Model):
     description = models.TextField(verbose_name="Описание задачи", null=True, blank=True)
     is_completed = models.BooleanField(default=False, verbose_name="Выполнено")
     todo_list = models.ForeignKey(TodoList, related_name="tasks", on_delete=models.CASCADE, 
-                                  verbose_name="Список задач")
+                                  verbose_name="Список задач", null=True, blank=True, default=None)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания задачи",
                                        blank=True)
     complete_date = models.DateTimeField(verbose_name="Дата завершения задачи",

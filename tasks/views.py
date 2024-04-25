@@ -15,7 +15,7 @@ class TodoListView(ListView):
     context_object_name = "todolists"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return TodoList.objects.filter(author=self.request.user)
+        return TodoList.objects.filter(author=self.request.user.id)
 
 
 class CurrentTodoListView(DetailView):
