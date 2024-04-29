@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Удалить {{ todolist.title }}
+{% endblock title %}
+
+{% block main %}
+
+<form method="post">
+    <p>Вы уверены, что хотите удалить список {{ todolist.title }}?</p>
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+
+{% endblock main %}

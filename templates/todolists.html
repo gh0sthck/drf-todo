@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-Мои списки задач
+Мои задачники
 {% endblock title %}
 
 {% block main %}
-{{ user }}
-<h1>Ваши списки задач [{{ todolists|length }}/{{ user.get_max_lists }}]</h1>
+<h1>Ваши задачники [{{ todolists|length }}/{{ user.get_max_lists }}]</h1>
     {% if todolists|length < user.get_max_lists %}
-    <a href="{% url "create_todolist" %}">Создать список задач</a>
+        <a href="{% url "create_list" %}">Создать задачник</a>
     {% else %}
-    <p>Вы создали максимальное количество список задач. Вы можете купить подписку и увеличить
-        количество создаваемых списков.
-    </p>
+        <p>
+            Вы создали максимальное количество задачников. 
+            Вы можете приобрести подписку и увеличить количество задачников.
+        </p>
     {% endif %}
-   {% if todolists %}
+    {% if todolists %}
         {% for list in todolists %}
             <div class="todo_list">
                 <h3><a href="{{ list.get_absolute_url }}">{{ list.title }}</a></h3>
@@ -24,8 +24,8 @@
                 <p>Выполненных здач: {{ list.get_completed_tasks|length }}</p>
             </div>
         {% endfor %}
-   {% else %}
+    {% else %}
         <h2>Хм, похоже, вы еще не создали ни одного списка... Вы можете сделать это 
-            <a href="{% url "create_todolist" %}">здесь</a></h2>
-   {% endif %}
+            <a href="{% url "create_list" %}">здесь</a></h2>
+    {% endif %}
 {% endblock main %}

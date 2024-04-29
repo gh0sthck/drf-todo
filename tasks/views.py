@@ -3,8 +3,9 @@ from typing import Any
 from django.db.models import Prefetch
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DeleteView, DetailView
 from django.views.generic.list import ListView
 
 from users.models import SiteClient
@@ -50,8 +51,24 @@ class CurrentTodoListView(DetailView):
             f = form.save(commit=False)
             f.todo_list = self.get_object()
             f.save()
-            return redirect("my_lists")
+            return redirect("current_list", self.get_object().slug)
         return redirect("current_list", self.get_object().slug)
+
+
+class DeleteTask(DeleteView):
+    model = Task
+    
+    def get_success_url(self) -> str:
+        obj: Task = self.get_object()
+        todo_list_slug = obj.todo_list.slug
+        return reverse_lazy("current_list", kwargs={"slug": todo_list_slug})
+
+
+class DeleteTodoList(DeleteView):
+    model = TodoList
+    success_url = reverse_lazy("my_lists")
+    template_name = "todolists_delete.html"
+    context_object_name = "todolist"
 
 
 class AddTodoListView(View):

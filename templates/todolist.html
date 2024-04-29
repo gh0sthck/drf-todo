@@ -6,6 +6,8 @@
 
 {% block main %}
     <h1>{{ list.title }}</h1>
+    <a href="{% url "delete_list" list.slug %}">Удалить</a>
+    <h2>Задачи {{ list.tasks.all|length }}/{{ user.get_max_tasks_by_list }}:</h2>
 
     {% for task in list.tasks.all %}
         <form method="get" action="{% url 'current_list' list.slug %}">
@@ -16,7 +18,12 @@
             {% else %}
                 <input type="submit" name="{{ task.title }}" value="Выполнено">
             {% endif %}
-            Приоритет: {{ task.priority }}
+            Приоритет: {{ task.priority }} 
+        </form>
+        
+        <form action="{% url "delete_task" task.pk %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Удалить задачу">
         </form>
     {% endfor %}
 
