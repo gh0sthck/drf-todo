@@ -51,7 +51,6 @@ class CurrentTodoListView(DetailView):
             f = form.save(commit=False)
             f.todo_list = self.get_object()
             f.save()
-            return redirect("current_list", self.get_object().slug)
         return redirect("current_list", self.get_object().slug)
 
 
