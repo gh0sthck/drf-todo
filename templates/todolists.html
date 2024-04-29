@@ -5,7 +5,15 @@
 {% endblock title %}
 
 {% block main %}
-<h1>Ваши списки задач</h1>
+{{ user }}
+<h1>Ваши списки задач [{{ todolists|length }}/{{ user.get_max_lists }}]</h1>
+    {% if todolists|length < user.get_max_lists %}
+    <a href="{% url "create_todolist" %}">Создать список задач</a>
+    {% else %}
+    <p>Вы создали максимальное количество список задач. Вы можете купить подписку и увеличить
+        количество создаваемых списков.
+    </p>
+    {% endif %}
    {% if todolists %}
         {% for list in todolists %}
             <div class="todo_list">

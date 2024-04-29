@@ -60,9 +60,13 @@ class Task(models.Model):
                                        blank=True)
     complete_date = models.DateTimeField(verbose_name="Дата завершения задачи",
                                          default=None, null=True, blank=True)
-    priority = models.IntegerField(validators=[
-        MinValueValidator(0), MaxValueValidator(5)
-    ], default=0)
+    priority = models.IntegerField(
+        validators=[
+            MinValueValidator(0), MaxValueValidator(5)
+        ],
+        default=0,
+        help_text="Значение должно быть не больше 5",
+        verbose_name="Приоритет")
     
     
     class Meta:

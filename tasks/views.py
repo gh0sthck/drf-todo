@@ -1,10 +1,13 @@
 from typing import Any
 
+from django.db.models import Prefetch
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
+
+from users.models import SiteClient
 
 from .models import TodoList, Task
 from .forms import AddTaskForm, AddTodoListForm
@@ -48,6 +51,7 @@ class CurrentTodoListView(DetailView):
             f.todo_list = self.get_object()
             f.save()
             return redirect("my_lists")
+        return redirect("current_list", self.get_object().slug)
 
 
 class AddTodoListView(View):
@@ -56,10 +60,17 @@ class AddTodoListView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            f = form.save(commit=False)
-            f.author = self.request.user
-            f.save()
+            user_lists_cnt = \
+                TodoList.objects.prefetch_related(
+                    Prefetch("author", SiteClient.objects.select_related("subscription"))
+                ).count()
+            if user_lists_cnt < request.user.get_max_lists():
+                f = form.save(commit=False)
+                f.author = self.request.user
+                f.save()
+                return redirect("my_lists")
             return redirect("my_lists")
+        return redirect("my_lists")
 
     def get(self, request, *args, **kwargs):
         return render(request, "todolists_add.html", {"form": self.form_class})

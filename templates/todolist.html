@@ -16,7 +16,7 @@
             {% else %}
                 <input type="submit" name="{{ task.title }}" value="Выполнено">
             {% endif %}
-            
+            Приоритет: {{ task.priority }}
         </form>
     {% endfor %}
 
@@ -26,4 +26,5 @@
         {% csrf_token %}
         <input type="submit" value="Добавить">
     </form>
+
 {% endblock main %}

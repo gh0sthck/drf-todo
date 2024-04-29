@@ -12,4 +12,4 @@ class AddTodoListForm(forms.ModelForm):
 class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "description"]
+        fields = ["title", "description", "priority"]
