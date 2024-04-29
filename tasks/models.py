@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from pytils.translit import slugify
 
 from django.db import models
@@ -59,6 +60,9 @@ class Task(models.Model):
                                        blank=True)
     complete_date = models.DateTimeField(verbose_name="Дата завершения задачи",
                                          default=None, null=True, blank=True)
+    priority = models.IntegerField(validators=[
+        MinValueValidator(0), MaxValueValidator(5)
+    ], default=0)
     
     
     class Meta:
