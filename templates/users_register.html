@@ -5,9 +5,15 @@
 {% endblock title %}
 
 {% block main %}
-<form method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <input type="submit" value="Зарегестрироваться">
-</form>
+
+    {% if not user.is_authenticated %}
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Зарегестрироваться">
+        </form>
+    {% else %}
+        <h2>Вы уже зарегестрированы.</h2>
+    {% endif %}
+
 {% endblock main %}

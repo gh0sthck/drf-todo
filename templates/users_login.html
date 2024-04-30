@@ -5,15 +5,19 @@
 {% endblock title %}
 
 {% block main %}
+
     {% if not user.is_authenticated %}
         <form method="post">
             {{ form.as_p }}
             {% csrf_token %}
             <input type="submit" value="Войти">
         </form>
+        <br/>
+        <a href="{% url "register" %}">Впервые здесь?</a>
     {% else%}
-        <p>Вы уже вошли</p>
+        <p>Вы уже вошли.</p>
     {% endif %}
+
 {% endblock main %}
 
 

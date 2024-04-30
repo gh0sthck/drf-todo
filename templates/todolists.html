@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-Мои задачники
+    Мои задачники
 {% endblock title %}
 
 {% block main %}
-<h1>Ваши задачники [{{ todolists|length }}/{{ user.get_max_lists }}]</h1>
+
+    {% if user.is_authenticated %}
+        <h1>Ваши задачники [{{ todolists|length }}/{{ user.get_max_lists }}]</h1>
+    {% endif %}
+
     {% if todolists|length < user.get_max_lists %}
         <a href="{% url "create_list" %}">Создать задачник</a>
-    {% else %}
+    {% elif todo_list|length >= users.get_max_lists %}
         <p>
             Вы создали максимальное количество задачников. 
             Вы можете приобрести подписку и увеличить количество задачников.
         </p>
     {% endif %}
+    
     {% if todolists %}
         {% for list in todolists %}
             <div class="todo_list">
@@ -28,4 +33,5 @@
         <h2>Хм, похоже, вы еще не создали ни одного списка... Вы можете сделать это 
             <a href="{% url "create_list" %}">здесь</a></h2>
     {% endif %}
+
 {% endblock main %}

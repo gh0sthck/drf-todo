@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-Создать список задач
+    Создать список задач
 {% endblock title %}
 
 {% block main %}
-{% if user.is_authenticated %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Создать">
-    </form>
-{% else %}
-    <h3>Вы не вошли в аккаунт</h3>
-{% endif %}
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Создать">
+        </form>
+    {% else %}
+        <h3>Вы не вошли в аккаунт. Это можно сделать <a href="{% url "login" %}">здесь</a>.</h3>
+    {% endif %}
+
 {% endblock main %}
 

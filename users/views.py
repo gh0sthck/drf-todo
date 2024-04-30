@@ -1,23 +1,27 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.http import HttpRequest
-from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
-
-from users.models import SiteClient
+from django.views import View
 
 from .forms import UserRegisterForm
 
 
-def register(request: HttpRequest):
-    if request.method == "POST":
-        form = UserRegisterForm(request.POST, request.FILES)
+class Register(View):
+    form = UserRegisterForm
+    
+    def post(self, request: HttpRequest):
+        form = self.form(request.POST)
         if form.is_valid():
             f = form.save(commit=False)
             passw = f.password
             f.set_password(passw)
             f.save()
             login(request, user=f)
-            return redirect("my_lists")
-    else:        
-        form = UserRegisterForm()
-        return render(request, "users_register.html", {"form": form})
+        return redirect("my_lists")
+
+    def get(self, request: HttpRequest,):
+        return render(request, "users_register.html", {"form": self.form()})
+
+
+class Subscriptions(View):
+    ...
