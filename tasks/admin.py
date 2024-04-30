@@ -5,7 +5,7 @@ from .models import Task, TodoList
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ["title", "description", "is_completed", "todo_list",
+    list_display = ["title",  "is_completed", "todo_list",
                     "complete_date", "create_date"]
     list_filter = ["is_completed", "todo_list", "complete_date", "create_date"]
 

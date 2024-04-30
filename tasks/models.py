@@ -3,7 +3,6 @@ import datetime
 from typing import List
 
 from django.core.validators import MaxValueValidator, MinValueValidator
-from pytils.translit import slugify
 
 from django.db import models
 from django.urls import reverse
@@ -35,7 +34,6 @@ class TodoList(models.Model):
         Tag, related_name="todolists", verbose_name="Теги", blank=True
     )
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    slug = models.SlugField(verbose_name="Слаг")
 
     def get_completed_tasks(self) -> List["TodoList"]:
         """Return all completed task in TodoList."""
@@ -43,18 +41,13 @@ class TodoList(models.Model):
         return tasks
 
     def get_absolute_url(self):
-        return reverse("current_list", kwargs={"slug": self.slug})
-
-    def save(self, *args, **kwargs) -> None:
-        if not self.slug:
-            self.slug = slugify(self.title)
-        return super(TodoList, self).save(*args, **kwargs)
+        return reverse("current_list", kwargs={"pk": self.pk})
 
     def __repr__(self) -> str:
         return f"<TodoList: {self.title}>"
 
     def __str__(self) -> str:
-        return self.name
+        return self.title
 
     class Meta:
         ordering = ["-title"]
@@ -64,9 +57,6 @@ class TodoList(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=256, verbose_name="Задача")
-    description = models.TextField(
-        verbose_name="Описание задачи", null=True, blank=True
-    )
     is_completed = models.BooleanField(default=False, verbose_name="Выполнено")
     todo_list = models.ForeignKey(
         TodoList,
@@ -84,8 +74,8 @@ class Task(models.Model):
         verbose_name="Дата завершения задачи", default=None, null=True, blank=True
     )
     priority = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)],
-        default=0,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        default=1,
         help_text="Приоритет не должен быть больше 5",
         verbose_name="Приоритет",
     )

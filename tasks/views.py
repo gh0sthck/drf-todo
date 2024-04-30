@@ -1,6 +1,7 @@
 from typing import Any
 
 from django.db.models import Prefetch
+from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -47,11 +48,18 @@ class CurrentTodoListView(DetailView):
     
     def post(self, request, *args, **kwargs):
         form = self.form(request.POST)
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.todo_list = self.get_object()
-            f.save()
-        return redirect("current_list", self.get_object().slug)
+        
+        user_tasks_cnt = Task.objects.prefetch_related(
+            Prefetch("todo_list", TodoList.objects.prefetch_related("tags"))
+        ).filter(todo_list=self.get_object()).count()
+        
+        if user_tasks_cnt < request.user.get_max_tasks_by_list():
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.todo_list = self.get_object()
+                f.save()
+                
+        return redirect("current_list", self.get_object().pk)
 
 
 class DeleteTask(DeleteView):
@@ -59,8 +67,8 @@ class DeleteTask(DeleteView):
     
     def get_success_url(self) -> str:
         obj: Task = self.get_object()
-        todo_list_slug = obj.todo_list.slug
-        return reverse_lazy("current_list", kwargs={"slug": todo_list_slug})
+        todo_list_pk = obj.todo_list.pk
+        return reverse_lazy("current_list", kwargs={"slug": todo_list_pk})
 
 
 class DeleteTodoList(DeleteView):
@@ -79,13 +87,11 @@ class AddTodoListView(View):
             user_lists_cnt = \
                 TodoList.objects.prefetch_related(
                     Prefetch("author", SiteClient.objects.select_related("subscription"))
-                ).count()
+                ).filter(author=request.user).count()
             if user_lists_cnt < request.user.get_max_lists():
                 f = form.save(commit=False)
                 f.author = self.request.user
                 f.save()
-                return redirect("my_lists")
-            return redirect("my_lists")
         return redirect("my_lists")
 
     def get(self, request, *args, **kwargs):
