@@ -28,22 +28,11 @@ class Register(View):
 class Subscriptions(View):
     subs = Subscription.objects.all()
 
-    subb = [
-        [
-            sub.name,
-            sub.add_todolists,
-            sub.add_todolists + SiteClient.DEFAULT_TODOLISTS,
-            sub.add_tasks_by_list,
-            sub.add_tasks_by_list + SiteClient.DEFAULT_TASKS_BY_LIST,
-        ]
-        for sub in subs
-    ]
-
     def get(self, request: HttpRequest):
         return render(
             request,
             "users_subscriptions.html",
             {
-                "subs": self.subb,
+                "subs": self.subs,
             },
         )

@@ -9,15 +9,15 @@
     {% for sub in subs %}
         <div class="subscription">
             
-            <h3>{{ sub.0 }} {% if user.subscription.name == sub.0 %}(Активна){% endif %}</h3>
+            <h3>{{ sub.name }} {% if user.subscription.name == sub.name %}(Активна){% endif %}</h3>
             
             <hr>
             <ul>
                 <li>
-                    Прибавка к количеству задачников - {{ sub.1 }}: {{ sub.2 }}
+                    Прибавка к количеству задачников - {{ sub.add_todolists }}: {{ sub.get_todolist_increase }}
                 </li>
                 <li>
-                    Прибавка к задачам в одном задачнике - {{ sub.3 }}: {{ sub.4 }}
+                    Прибавка к задачам в одном задачнике - {{ sub.add_tasks_by_list }}: {{ sub.get_tasks_increase }}
                 </li> 
             </ul>
         </div>

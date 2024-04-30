@@ -18,6 +18,14 @@ class Subscription(models.Model):
         default=0,
     )
 
+    def get_todolist_increase(self) -> int:
+        """Return TodoLists increase after subscription."""
+        return SiteClient.DEFAULT_TODOLISTS + self.add_todolists
+
+    def get_tasks_increase(self) -> int:
+        """Return Tasks increase after subscription."""
+        return SiteClient.DEFAULT_TASKS_BY_LIST + self.add_tasks_by_list
+
     def __repr__(self) -> str:
         return f"<Subscription: {self.name}>"
 
@@ -60,14 +68,18 @@ class SiteClient(AbstractUser):
 
     def get_max_lists(self) -> int:
         """Return max TodoLists count which user can create."""
-        return self.max_list_default + (
-            self.subscription.add_todolists if self.subscription else 0
+        return (
+            self.subscription.get_todolist_increase()
+            if self.subscription
+            else self.DEFAULT_TODOLISTS
         )
 
     def get_max_tasks_by_list(self) -> int:
         """Return max tasks count which can be in TodoList."""
-        return self.max_tasks_by_list_default + (
-            self.subscription.add_tasks_by_list if self.subscription else 0
+        return (
+            self.subscription.get_tasks_increase()
+            if self.subscription
+            else self.DEFAULT_TASKS_BY_LIST
         )
 
     def __repr__(self) -> str:
