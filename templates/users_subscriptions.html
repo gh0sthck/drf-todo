@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Подписка
+{% endblock title %}
+
+{% block main %}
+
+    {% for sub in subs %}
+        <div class="subscription">
+            
+            <h3>{{ sub.0 }} {% if user.subscription.name == sub.0 %}(Активна){% endif %}</h3>
+            
+            <hr>
+            <ul>
+                <li>
+                    Прибавка к количеству задачников - {{ sub.1 }}: {{ sub.2 }}
+                </li>
+                <li>
+                    Прибавка к задачам в одном задачнике - {{ sub.3 }}: {{ sub.4 }}
+                </li> 
+            </ul>
+        </div>
+    {% endfor %}
+
+{% endblock main %}

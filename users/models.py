@@ -31,16 +31,23 @@ class Subscription(models.Model):
 
 
 class SiteClient(AbstractUser):
+    DEFAULT_TODOLISTS = 5
+    DEFAULT_TASKS_BY_LIST = 10
+
     username = models.CharField(
         verbose_name="Имя пользователя", max_length=128, unique=True, null=False
     )
     email = models.EmailField(verbose_name="Адрес электронной почты")
     avatar = models.ImageField(upload_to="", null=True, blank=True)
     max_list_default = models.PositiveIntegerField(
-        verbose_name="Максимальное количество задачников", default=5, null=False
+        verbose_name="Максимальное количество задачников",
+        default=DEFAULT_TODOLISTS,
+        null=False,
     )
     max_tasks_by_list_default = models.PositiveIntegerField(
-        verbose_name="Максимальное количество задач на задачник", default=10, null=False
+        verbose_name="Максимальное количество задач на задачник",
+        default=DEFAULT_TASKS_BY_LIST,
+        null=False,
     )
     subscription = models.ForeignKey(
         Subscription,
