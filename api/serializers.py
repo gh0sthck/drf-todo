@@ -44,7 +44,7 @@ class SubscriptionSeializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    subscription = serializers.CharField(source="subscription.name")
+    # subscription_name = serializers.CharField(source="subscription.name")
     
     class Meta:
         model = SiteClient
@@ -53,7 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "password",
-            "max_lists_default",
+            "max_list_default",
             "max_tasks_by_list_default",
             "subscription",
         ]

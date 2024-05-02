@@ -12,7 +12,7 @@ router = DefaultRouter()
 
 router.register("tasks", TaskViewSet, basename="tasks")
 router.register("todo_lists", TodoListViewSet, basename="todo_lists")
-router.register("users", UserViewSet)
+router.register("users", UserViewSet, basename="users")
 router.register("subscriptions", SubscriptionViewSet)
 
 schema_view = get_schema_view(
