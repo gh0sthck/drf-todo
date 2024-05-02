@@ -44,8 +44,8 @@ class SubscriptionSeializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # subscription_name = serializers.CharField(source="subscription.name")
-    
+    subscription = serializers.CharField(source="subscription.name", default=None)
+        
     class Meta:
         model = SiteClient
         fields = [
@@ -57,4 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
             "max_tasks_by_list_default",
             "subscription",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "subscription": {"read_only": True},
+        }

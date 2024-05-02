@@ -37,6 +37,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 class SubscriptionViewSet(viewsets.ModelViewSet):
     serializer_class = SubscriptionSeializer
     queryset = Subscription.objects.all()
+    permission_classes = [permissions.AllowAny]
 
 
 class UserViewSet(viewsets.ModelViewSet):
