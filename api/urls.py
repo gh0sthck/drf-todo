@@ -10,7 +10,7 @@ from .views import SubscriptionViewSet, TaskViewSet, TodoListViewSet, UserViewSe
 
 router = DefaultRouter()
 
-router.register("tasks", TaskViewSet)
+router.register("tasks", TaskViewSet, basename="tasks")
 router.register("todo_lists", TodoListViewSet)
 router.register("users", UserViewSet)
 router.register("subscriptions", SubscriptionViewSet)

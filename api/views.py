@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
@@ -14,8 +15,12 @@ class TodoListViewSet(viewsets.ModelViewSet):
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
-    queryset = Task.objects.select_related("todo_list")
     permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        return Task.objects.filter(todo_list__author=self.request.user).prefetch_related(
+            Prefetch("todo_list", TodoList.objects.prefetch_related("tags"))
+        )
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
