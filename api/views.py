@@ -1,9 +1,9 @@
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from api.serializers import TaskSerializer, TodoListSerializer, UserSerializer
+from api.serializers import SubscriptionSeializer, TaskSerializer, TodoListSerializer, UserSerializer
 from tasks.models import TodoList, Task
-from users.models import SiteClient
+from users.models import SiteClient, Subscription
 
 
 class TodoListViewSet(viewsets.ModelViewSet):
@@ -16,6 +16,11 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Task.objects.select_related("todo_list")
     permission_classes = [permissions.IsAuthenticated]
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    serializer_class = SubscriptionSeializer
+    queryset = Subscription.objects.all()
 
 
 class UserViewSet(viewsets.ModelViewSet):

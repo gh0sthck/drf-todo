@@ -63,7 +63,7 @@ class Task(models.Model):
         related_name="tasks",
         on_delete=models.CASCADE,
         verbose_name="Список задач",
-        null=True,
+        null=True,  
         blank=True,
         default=None,
     )

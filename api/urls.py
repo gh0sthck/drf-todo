@@ -6,13 +6,14 @@ from rest_framework import permissions
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-from .views import TaskViewSet, TodoListViewSet, UserViewSet
+from .views import SubscriptionViewSet, TaskViewSet, TodoListViewSet, UserViewSet
 
 router = DefaultRouter()
 
 router.register("tasks", TaskViewSet)
-router.register("todo_lists", TodoListViewSet, basename="todo-lists")
+router.register("todo_lists", TodoListViewSet)
 router.register("users", UserViewSet)
+router.register("subscriptions", SubscriptionViewSet)
 
 schema_view = get_schema_view(
    openapi.Info(
