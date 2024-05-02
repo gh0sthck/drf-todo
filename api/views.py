@@ -10,7 +10,9 @@ from users.models import SiteClient, Subscription
 class TodoListViewSet(viewsets.ModelViewSet):
     serializer_class = TodoListSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = TodoList.objects.prefetch_related("tags")
+    
+    def get_queryset(self):
+        return TodoList.objects.filter(author=self.request.user).prefetch_related("tags")
     
 
 class TaskViewSet(viewsets.ModelViewSet):
